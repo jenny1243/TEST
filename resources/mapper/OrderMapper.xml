@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.OrderMapper">
+
+    <!--查询订单信息-->
+
+    <select id="ordersShow" resultMap="ordersShowMap">
+        SELECT
+            orders.*,
+            user.username,
+            order_state.state
+        FROM orders,user,order_state
+        WHERE orders.user_id=user.userId AND orders.order_state=order_state.id
+    </select>
+    <resultMap id="ordersShowMap" type="com.ssm.entity.Order">
+        <id column="id" property="id"></id>
+        <result column="user_id" property="user_id"/>
+        <result column="order_num" property="order_num"/>
+        <result column="order_price" property="order_price"/>
+        <result column="order_state" property="order_state"/>
+        <result column="order_date" property="order_date"/>
+        <result column="order_message" property="order_message"/>
+        <association property="user" javaType="com.ssm.entity.User">
+            <id column="userId" property="userId"/>
+            <result column="username" property="username"/>
+        </association>
+        <association property="orderstate" javaType="com.ssm.entity.Orderstate">
+            <id column="id" property="id"/>
+            <result column="state" property="state"/>
+        </association>
+    </resultMap>
+
+
+
+    <!--通过订单号查找订单信息-->
+    <select resultType="com.ssm.entity.Order" id="orderfindByKey">
+         SELECT * FROM order WHERE order_num=#{order_num}
+    </select>
+
+    <!--删除订单信息-->
+    <delete id="delOrders" parameterType="com.ssm.entity.Order">
+        delete from orders where id=#{id}
+    </delete>
+
+    <!--批量删除订单信息-->
+    <delete id="delmanyOrders" parameterType="list">
+        delete from orders where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultType="com.ssm.entity.Order">
+        select * from orders
+    </select>
+
+
+</mapper>

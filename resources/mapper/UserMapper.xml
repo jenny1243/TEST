@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.UserMapper">
+
+    <!--查询登录用户的信息-->
+
+    <select resultType="com.ssm.entity.User" id="userShow">
+        SELECT * FROM user
+    </select>
+
+    <!--通过关键字查找用户信息-->
+    <select resultType="com.ssm.entity.User" id="userfindByKey">
+         SELECT * FROM user WHERE username LIKE '%${key}%'
+    </select>
+
+    <!--通过id查找用户信息-->
+    <select resultType="com.ssm.entity.User" id="userfindById">
+         SELECT * FROM user WHERE userId=#{id}
+    </select>
+
+    <!--通过id查找用户信息-->
+    <select resultType="com.ssm.entity.User" id="findAll">
+         SELECT * FROM user
+    </select>
+    <!--编辑用户信息-->
+    <update id="editUser" parameterType="com.ssm.entity.User">
+        update user set
+        username=#{username},
+        nickname=#{nickname},
+        phone=#{phone},
+        create_time=#{create_time},
+        last_login_time=#{last_login_time},
+        status=#{status},
+        goods_num=#{goods_num},
+        credit_score=#{credit_score},
+        email=#{email},
+        password=#{password}
+         where userId=#{userId}
+    </update>
+
+    <!--删除用户信息-->
+    <delete id="delUser" parameterType="com.ssm.entity.User">
+        delete from user where userId=#{userId}
+    </delete>
+
+    <!--批量删除用户信息-->
+    <delete id="delmanyUser" parameterType="list">
+        delete from user where userId in
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+</mapper>

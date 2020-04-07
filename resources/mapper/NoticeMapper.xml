@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.NoticeMapper">
+
+<!--查询所有公告 -->
+
+<select resultType="com.ssm.entity.Notice" id="noticeShow">
+        SELECT * FROM notice
+    </select>
+
+    <!--发布公告 -->
+    <insert id="publishNotice">
+        INSERT INTO `notice` (
+            `content`,
+            `publis_time`
+        )
+        VALUES (
+            #{content},
+            #{publis_time}
+        )
+    </insert>
+
+    <!--编辑公告信息-->
+    <update id="editNotice" parameterType="com.ssm.entity.Notice">
+        update notice set content=#{content} where id=#{id}
+    </update>
+
+    <!--删除公告-->
+    <delete id="delNotice" parameterType="com.ssm.entity.Notice">
+        delete from notice where id=#{id}
+    </delete>
+
+    <!--批量删除公告-->
+    <delete id="delmanyNotice" parameterType="list">
+        delete from notice where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultType="com.ssm.entity.Notice">
+        select * from notice
+    </select>
+</mapper>

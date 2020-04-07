@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.GoodsMapper">
+
+    <!--查询所有商品信息-->
+
+    <select id="goodsShow" resultMap="goodsShowMap">
+        SELECT
+            goods.*,
+            user.username,
+            goods_state.state
+        FROM goods,user,goods_state
+        WHERE goods.user_id=user.userId AND goods.status=goods_state.id
+    </select>
+    <resultMap id="goodsShowMap" type="com.ssm.entity.Goods">
+        <id column="id" property="id"></id>
+        <result column="user_id" property="user_id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="real_price" property="real_price"/>
+        <result column="release_date" property="release_date"/>
+        <result column="status" property="status"/>
+        <result column="repertory" property="repertory"/>
+        <result column="remove_date" property="remove_date"/>
+        <result column="describle" property="describle"/>
+        <association property="user" javaType="com.ssm.entity.User">
+            <id column="userId" property="userId"/>
+            <result column="username" property="username"/>
+        </association>
+        <association property="goodstate" javaType="com.ssm.entity.Goodstate">
+            <id column="id" property="id"/>
+            <result column="state" property="state"/>
+        </association>
+    </resultMap>
+
+    <!--通过关键字查找商品信息-->
+    <select resultType="com.ssm.entity.Goods" id="goodsfindByKey">
+         SELECT * FROM goods WHERE name LIKE '%${key}%'
+    </select>
+
+    <!--添加商品信息-->
+    <insert id="addGoods" parameterType="com.ssm.entity.Goods">
+        insert into goods values
+        (#{username},nickname=#{nickname},phone=#{phone},create_time=#{create_time},last_login_time=#{last_login_time},status=#{status},goods_num=#{goods_num},credit_score=#{credit_score},email=#{email})
+    </insert>
+
+    <!--编辑商品信息-->
+    <update id="editGoods" parameterType="com.ssm.entity.Goods">
+        update goods set username=#{username},nickname=#{nickname},phone=#{phone},create_time=#{create_time},last_login_time=#{last_login_time},status=#{status},goods_num=#{goods_num},credit_score=#{credit_score},email=#{email} where userId=#{userId}
+    </update>
+
+    <!--删除商品信息-->
+    <delete id="delGoods" parameterType="com.ssm.entity.Goods">
+        delete from goods where id=#{id}
+    </delete>
+
+    <!--批量删除商品信息-->
+    <delete id="delmanyGoods" parameterType="list">
+        delete from goods where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="findAll" resultType="com.ssm.entity.Goods">
+        select * from goods
+    </select>
+
+
+    <!--查询未审核商品信息-->
+
+    <select id="unconfirmgoodsShow" resultMap="ungoodsShowMap">
+        SELECT
+            goods.*,
+            user.username,
+            goods_state.state
+        FROM goods,user,goods_state
+        WHERE goods.user_id=user.userId AND goods.status=goods_state.id
+    </select>
+    <resultMap id="ungoodsShowMap" type="com.ssm.entity.Goods">
+        <id column="id" property="id"></id>
+        <result column="user_id" property="user_id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="real_price" property="real_price"/>
+        <result column="release_date" property="release_date"/>
+        <result column="status" property="status"/>
+        <result column="repertory" property="repertory"/>
+        <result column="remove_date" property="remove_date"/>
+        <result column="describle" property="describle"/>
+        <association property="user" javaType="com.ssm.entity.User">
+            <id column="userId" property="userId"/>
+            <result column="username" property="username"/>
+        </association>
+        <association property="goodstate" javaType="com.ssm.entity.Goodstate">
+            <id column="id" property="id"/>
+            <result column="state" property="state"/>
+        </association>
+    </resultMap>
+
+    <!--查询已审核商品信息-->
+
+    <select id="confirmgoodsShow" resultMap="havegoodsShowMap">
+        SELECT
+            goods.*,
+            user.username,
+            goods_state.state
+        FROM goods,user,goods_state
+        WHERE goods.user_id=user.userId AND goods.status=goods_state.id AND goods.status=4
+    </select>
+    <resultMap id="havegoodsShowMap" type="com.ssm.entity.Goods">
+        <id column="id" property="id"></id>
+        <result column="user_id" property="user_id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="real_price" property="real_price"/>
+        <result column="release_date" property="release_date"/>
+        <result column="status" property="status"/>
+        <result column="repertory" property="repertory"/>
+        <result column="remove_date" property="remove_date"/>
+        <result column="describle" property="describle"/>
+        <association property="user" javaType="com.ssm.entity.User">
+            <id column="userId" property="userId"/>
+            <result column="username" property="username"/>
+        </association>
+        <association property="goodstate" javaType="com.ssm.entity.Goodstate">
+            <id column="id" property="id"/>
+            <result column="state" property="state"/>
+        </association>
+    </resultMap>
+
+    <select id="goodfindById" resultType="com.ssm.entity.Goods">
+        SELECT * FROM goods WHERE id=#{id}
+    </select>
+
+
+</mapper>

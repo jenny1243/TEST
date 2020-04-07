@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.GoodsTypeMapper">
+
+    <!--查询商品类别信息-->
+
+    <select resultType="com.ssm.entity.Goodstype" id="goodstypeShow">
+        SELECT * FROM goods_type
+    </select>
+
+    <insert id="addGoodstype">
+        INSERT INTO `goods_type` (
+            `typename`
+        )
+        VALUES (
+            #{typename}
+        )
+    </insert>
+    <select id="findGoodtype" resultType="com.ssm.entity.Goodstype">
+        select * from goods_type where typename=#{typename}
+    </select>
+
+    <!--删除商品种类信息-->
+    <delete id="delGoodstype" parameterType="com.ssm.entity.Goodstype">
+        delete from goods_type where id=#{id}
+    </delete>
+
+    <!--批量删除商品种类信息-->
+    <delete id="delmanyGoodstype" parameterType="list">
+        delete from goods_type where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findAll" resultType="com.ssm.entity.Goodstype">
+         SELECT * FROM goods_type
+    </select>
+</mapper>

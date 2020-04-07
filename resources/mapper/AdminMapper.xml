@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.AdminMapper">
+
+<!--通过输入的用户名查询登录者信息是否匹配-->
+
+<!--查询登录用户的信息-->
+
+
+<select resultType="com.ssm.entity.Admin" id="findAdminByName">
+        SELECT *FROM Admin WHERE adminname=#{adminname};
+    </select>
+<insert id="registAdmin" parameterType="com.ssm.entity.Admin">
+        INSERT INTO admin VALUES(#{admin.adminId,jdbcType=VARCHAR},#{admin.adminname,jdbcType=VARCHAR},#{admin.adminpwd,jdbcType=VARCHAR});
+</insert>
+
+</mapper>

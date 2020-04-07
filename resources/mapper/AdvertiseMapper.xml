@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.mapper.AdvertiseMapper">
+
+
+<insert id="uploadAd">
+        INSERT INTO `advertisement` (
+            `img`,
+            `userid`
+        )
+        VALUES (
+            #{img},
+            #{userid}
+        )
+</insert>
+
+    <select id="userShow" resultType="com.ssm.entity.User">
+        select * from user
+    </select>
+</mapper>
